@@ -21,10 +21,7 @@ const Main: React.FC = () => {
         <img src={shoplogo} alt="logo not found" className="shoplogo" />
         <input type="text" placeholder="Search..." className="searchbar" />
         <div className="icondiv">
-          <a
-            href=""
-            onClick={() => navigate("/cart", { state: { image: shoplogo } })}
-          >
+          <a href="" onClick={() => navigate("/cart", { state: {} })}>
             <FaCartShopping className="icon" />
           </a>
           <a href="">

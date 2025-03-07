@@ -1,55 +1,62 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./ShoppingCart.css";
+import {
+  getItems,
+  removeItem,
+  updateItem,
+} from "../services/shoppingCartService";
 
-interface CartItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-  description: string;
-}
-
-const ShoppingCart: React.FC<CartItem> = ({ image }) => {
-  const [items, setItems] = useState<CartItem[]>([
+const ShoppingCart: React.FC = ({}) => {
+  const navigate = useNavigate();
+  const [items, setItems] = useState<
     {
-      id: 1,
-      name: "Item 1",
-      price: 10,
-      quantity: 1,
-      image: "https://via.placeholder.com/150",
-      description: "This is a description for item 1.",
-    },
-    {
-      id: 2,
-      name: "Item 2",
-      price: 20,
-      quantity: 2,
-      image: "https://via.placeholder.com/150",
-      description: "This is a description for item 2.",
-    },
-    {
-      id: 3,
-      name: "Item 3",
-      price: 30,
-      quantity: 3,
-      image: "https://via.placeholder.com/150",
-      description: "This is a description for item 3.",
-    },
-  ]);
-
-  const updateQuantity = (id: number, quantity: number) => {
+      id: number;
+      title: string;
+      description: string;
+      price: string;
+      quantity: number;
+      image: string;
+    }[]
+  >([]);
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const data = await getItems();
+        setItems(data);
+      } catch (error) {
+        alert("Error fetching items: " + error);
+      }
+    };
+    fetchItems();
+  }, []);
+  const handleRemove = async (id: number) => {
+    try {
+      await removeItem(id);
+      setItems(items.filter((item) => item.id !== id));
+    } catch (error) {
+      alert("Error removing item: " + error);
+    }
+  };
+  // cart ui
+  const updateQuantity = async (id: number, quantity: number) => {
     setItems(
       items.map((item) => (item.id === id ? { ...item, quantity } : item))
     );
-  };
-
-  const removeItem = (id: number) => {
-    setItems(items.filter((item) => item.id !== id));
+    try {
+      await updateItem(id, {
+        quantity,
+      });
+    } catch (error) {
+      alert("Error updating item: " + error);
+    }
   };
 
   const getTotalPrice = () => {
-    return items.reduce((total, item) => total + item.price * item.quantity, 0);
+    return items.reduce(
+      (total, item) => total + parseFloat(item.price) * item.quantity,
+      0
+    );
   };
   const handleCheckout = () => {
     alert("Proceeding to checkout...");
@@ -57,13 +64,16 @@ const ShoppingCart: React.FC<CartItem> = ({ image }) => {
 
   return (
     <div className="shopping-cart">
+      <button onClick={() => navigate("/")} className="back">
+        Go Back
+      </button>
       <h2>Shopping Cart</h2>
       <ul>
         {items.map((item) => (
           <li key={item.id}>
-            <img src={image} alt={item.name} />
+            <img src={item.image} alt={item.title} />
             <div className="item-details">
-              <span className="item-name">{item.name}</span>
+              <span className="item-name">{item.title}</span>
               <span className="item-description">{item.description}</span>
             </div>
             <div
@@ -73,7 +83,9 @@ const ShoppingCart: React.FC<CartItem> = ({ image }) => {
                 gap: "5px",
               }}
             >
-              <span className="item-price">${item.price.toFixed(2)}</span>
+              <span className="item-price">
+                ${parseFloat(item.price).toFixed(2)}
+              </span>
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <input
                   type="number"
@@ -83,7 +95,7 @@ const ShoppingCart: React.FC<CartItem> = ({ image }) => {
                   }
                   min="1"
                 />
-                <button onClick={() => removeItem(item.id)}>Remove</button>
+                <button onClick={() => handleRemove(item.id)}>Remove</button>
               </div>
             </div>
           </li>

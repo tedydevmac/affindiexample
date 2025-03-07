@@ -1,6 +1,7 @@
 import React from "react";
 import "./Card.css";
 import { FaCartPlus } from "react-icons/fa";
+import { addItem } from "../services/shoppingCartService";
 
 interface CardProps {
   itemTitle: string;
@@ -20,8 +21,21 @@ const Card: React.FC<CardProps> = ({
   const oneWeekLater = new Date();
   oneWeekLater.setDate(oneWeekLater.getDate() + daysLater);
   const formattedDate = oneWeekLater.toLocaleDateString();
-  const addedToCart = () => {
-    alert("Item has been added to cart.");
+  const addToCart = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const newItem = {
+        id: Math.random(),
+        title: itemTitle,
+        description: itemDesc,
+        price: price,
+        quantity: 1,
+        image: imgSrc,
+      };
+      await addItem(newItem);
+    } catch (error) {
+      alert("There was an error: " + error);
+    }
   };
   return (
     <div className="card">
@@ -38,7 +52,7 @@ const Card: React.FC<CardProps> = ({
               Get it by {formattedDate}
             </text>
           </div>
-          <button className="cartbutton" onClick={() => addedToCart()}>
+          <button className="cartbutton" onClick={(e) => addToCart(e)}>
             <FaCartPlus className="carticon" />
           </button>
         </div>
