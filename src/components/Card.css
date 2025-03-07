@@ -1,0 +1,90 @@
+.card {
+  flex: 1;
+  flex-direction: column;
+  background-color: #f0f0f0;
+  border-radius: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: black;
+  height: 275px;
+  padding-left: 0.7%;
+  padding-top: 0.6%;
+  padding-right: 0.7%;
+}
+.cardimg {
+  width: 100%;
+  height: 70%;
+  border-radius: 13.5px;
+  user-select: none;
+  cursor: pointer;
+}
+.card-info-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.card-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+  align-content: center;
+  align-items: start;
+}
+.card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  user-select: none;
+}
+.card-desc {
+  font-size: 1rem;
+  font-weight: normal;
+  user-select: none;
+}
+.checkout-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  gap: 0.7rem;
+}
+.pricecolumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: end;
+  line-height: 1.3;
+}
+.pricetext {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: green;
+  user-select: none;
+}
+.cartbutton {
+  height: 50px;
+  width: 75px;
+  background-color: yellowgreen;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+  outline: none;
+  box-shadow: none;
+  position: relative;
+  transition: transform 0.1s;
+}
+.cartbutton:active {
+  transform: translateY(2px); /* Move the button down when pressed */
+}
+
+.carticon {
+  font-size: 30px;
+  color: black;
+  align-self: center;
+  justify-self: center;
+  transition: transform 0.025s;
+}
+.cartbutton:active .carticon {
+  transform: translate(-2px, 2px);
+}
