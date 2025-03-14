@@ -24,7 +24,7 @@ const Main: React.FC = () => {
           <a href="" onClick={() => navigate("/cart", { state: {} })}>
             <FaCartShopping className="icon" />
           </a>
-          <a href="">
+          <a href="" onClick={() => navigate("/profile", { state: {} })}>
             <IoPersonCircleSharp className="icon" />
           </a>
           <a href="">
@@ -32,6 +32,7 @@ const Main: React.FC = () => {
           </a>
         </div>
       </div>
+
       <div className="card-container">
         <text>For You</text>
         <div className="card-row">

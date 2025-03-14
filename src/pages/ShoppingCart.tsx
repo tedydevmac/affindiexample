@@ -64,7 +64,7 @@ const ShoppingCart: React.FC = ({}) => {
 
   return (
     <div className="shopping-cart">
-      <button onClick={() => navigate("/")} className="back">
+      <button onClick={() => navigate("/auth/callback")} className="back">
         Go Back
       </button>
       <h2>Shopping Cart</h2>
